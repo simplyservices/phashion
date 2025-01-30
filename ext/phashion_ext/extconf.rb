@@ -8,9 +8,12 @@ $CFLAGS += " -fdeclspec" if RUBY_PLATFORM =~ /darwin/
 $includes = " -I#{HERE}/include"
 $libraries = " -L#{HERE}/lib -L/usr/local/lib"
 $LIBPATH = ["#{HERE}/lib"]
-$CFLAGS = "#{$includes} #{$libraries} #{$CFLAGS}"
-$LDFLAGS = "#{$libraries} #{$LDFLAGS}"
+$CFLAGS = "#{$includes} #{$libraries} #{$CFLAGS} -I/opt/homebrew/opt/jpeg/include -L/opt/homebrew/opt/libpng/include"
+$LDFLAGS = "#{$libraries} #{$LDFLAGS} -L/opt/homebrew/opt/jpeg/lib -L/opt/homebrew/opt/libpng/lib"
 $CXXFLAGS = ' -pthread'  
+
+puts "#{$LDFLAGS}"
+puts "#{$CFLAGS}"
 
 Dir.chdir(HERE) do
   if File.exist?("lib")
@@ -26,6 +29,7 @@ Dir.chdir(HERE) do
     
     puts "HERE: #{HERE} BUNDLE_PATH: #{BUNDLE_PATH}"
     puts Dir.glob(HERE)
+
     puts "updating config.{guess,sub} to support newer architectures"
     FileUtils.cp "#{HERE}/config.sub"  , BUNDLE_PATH
     FileUtils.cp "#{HERE}/config.guess", BUNDLE_PATH
@@ -44,7 +48,7 @@ Dir.chdir(HERE) do
       raise "'#{cmd}' failed" unless system(cmd)
     end
 
-    system("rm -rf #{BUNDLE_PATH}") unless ENV['DEBUG'] or ENV['DEV']
+    # system("rm -rf #{BUNDLE_PATH}") unless ENV['DEBUG'] or ENV['DEV']
   end
 
   Dir.chdir("#{HERE}/lib") do
