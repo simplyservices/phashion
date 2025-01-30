@@ -24,9 +24,7 @@ Dir.chdir(HERE) do
     # puts(cmd = "patch -d pHash-0.9.6 -p1 < patches/png_alpha.diff")
     # raise "'#{cmd}' failed" unless system(cmd)
 
-    puts "updating config.{guess,sub} to support newer architectures"
-    FileUtils.cp 'patches/config.sub'  , HERE
-    FileUtils.cp 'patches/config.guess', HERE
+    puts "HERE: #{HERE} BUNDLE_PATH: #{BUNDLE_PATH}"
 
     Dir.chdir(BUNDLE_PATH) do
       puts(cmd = "env CXXFLAGS='#{$CXXFLAGS}' CFLAGS='#{$CFLAGS}' LDFLAGS='#{$LDFLAGS}' ./configure --prefix=#{HERE} --disable-audio-hash --disable-video-hash --disable-shared --with-pic 2>&1")
