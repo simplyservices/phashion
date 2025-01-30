@@ -25,9 +25,10 @@ Dir.chdir(HERE) do
     # raise "'#{cmd}' failed" unless system(cmd)
     
     puts "HERE: #{HERE} BUNDLE_PATH: #{BUNDLE_PATH}"
+    puts Dir.glob(HERE)
     puts "updating config.{guess,sub} to support newer architectures"
-    FileUtils.cp 'patches/config.sub'  , BUNDLE_PATH
-    FileUtils.cp 'patches/config.guess', BUNDLE_PATH
+    FileUtils.cp "#{HERE}/config.sub"  , BUNDLE_PATH
+    FileUtils.cp "#{HERE}/config.guess", BUNDLE_PATH
 
     Dir.chdir(BUNDLE_PATH) do
       puts(cmd = "env CXXFLAGS='#{$CXXFLAGS}' CFLAGS='#{$CFLAGS}' LDFLAGS='#{$LDFLAGS}' ./configure --prefix=#{HERE} --disable-audio-hash --disable-video-hash --disable-shared --with-pic 2>&1")
